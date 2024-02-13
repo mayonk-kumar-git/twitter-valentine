@@ -1,3 +1,7 @@
+function randomBetween(max, min) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 async function corsProxyFetch(url) {
   try {
     const response = await fetch(
@@ -7,7 +11,7 @@ async function corsProxyFetch(url) {
     const actualResponse = JSON.parse(jsonResponse.contents);
     return actualResponse;
   } catch (error) {
-    console.log("error while making network call to url:", url);
+    // console.log("error while making network call to url:", url);
   }
 }
 
@@ -15,9 +19,9 @@ export async function getFullUserInfo(userName) {
   const response = await corsProxyFetch(
     `https://api.twitterpicker.com/user/data?&id=${userName}`
   );
-  console.log("====================================");
-  console.log("name:", response?.name);
-  console.log("====================================");
+  // console.log("====================================");
+  // console.log("name:", response?.name);
+  // console.log("====================================");
   return response;
 }
 
@@ -52,7 +56,7 @@ export async function getUserTimeline(userId) {
   let cursor;
   for (let index = 0; index < 4; ++index) {
     const response = await fetchUserTimeline(userId, cursor);
-    if (response.entries.length == 0) {
+    if (!response.entries || response.entries.length == 0) {
       break;
     }
     cursor = response.cursor;
@@ -66,7 +70,7 @@ export async function getLikedPosts(userId) {
   let cursor;
   for (let index = 0; index < 5; ++index) {
     const response = await fetchLikedPosts(userId, cursor);
-    if (response.entries.length == 0) {
+    if (!response.entries || response.entries.length == 0) {
       break;
     }
     cursor = response.cursor;
@@ -171,84 +175,141 @@ function countLikes(interactions, likes, screen_name) {
   }
 }
 
-export async function findValentine() {
-  // const username = "mayonkkumar";
-  // const username = "suereact";
-  const username = "dev_avocado";
-  const user = await getFullUserInfo(username);
-  const userGender = await getGender(user.name);
-  const timeline = await getUserTimeline(user.id_str);
-  const liked = await getLikedPosts(user.id_str);
-
-  /**
-   * This is the main place where we are going to keep our data as we process it.
-   * It's an object where the key is the user_id and the values is an object like this:
-   * {
-   *		screen_name: string,
-   *		id: string,
-   *		reply: number,
-   *		retweet: number,
-   *		like: number,
-   * }
-   */
-  const interactions = {};
-
-  countReplies(interactions, timeline, user.screen_name);
-  countRetweets(interactions, timeline, user.screen_name);
-  countLikes(interactions, liked, user.screen_name);
-
-  const tally = [];
-
-  /**
-   * This is the heart of the algorithm.
-   * We process all the collected interactions and assign a value to them and count the total.
-   * We stored the processed interactions in our `tally` array.
-   * Each object in our tally array looks like this:
-   * {
-   *		screen_name: string,
-   *		id: string,
-   *		total: number
-   * }
-   */
-  for (const [key, interaction] of Object.entries(interactions)) {
-    let total = 0;
-    total += interaction.like;
-    total += interaction.reply * 1.1;
-    total += interaction.retweet * 1.3;
-
-    tally.push({
-      id: interaction.id,
-      screen_name: interaction.screen_name,
-      total,
-    });
+export async function findValentine(
+  username,
+  setValentineUsername,
+  setUserAvatar,
+  setValentineAvatar,
+  setLoading
+) {
+  if (username.length === 0) {
+    alert("Please enter a valid username");
+    setLoading(100);
+    return;
   }
 
-  // sort the tally array by total descending
-  tally.sort((a, b) => b.total - a.total);
-  console.log("====================================");
-  console.log(tally);
-  console.log("====================================");
+  if (username.charAt(0) === "@") {
+    username = username.slice(1);
+  }
+  // const username = "mayonkkumar";
+  // const username = "suereact";
+  // const username = "dev_avocado";
+  try {
+    setLoading(randomBetween(5, 9));
+    const user = await getFullUserInfo(username);
+    // console.log(user);
+    setUserAvatar(
+      user.profile_image_url_https.replace("_normal.jpg", "_400x400.jpg")
+    );
+    const userGender = await getGender(user.name);
+    setLoading(randomBetween(9, 15));
+    const timeline = await getUserTimeline(user.id_str);
+    setLoading(randomBetween(15, 35));
+    // console.log("timeline:", timeline?.length);
+    const liked = await getLikedPosts(user.id_str);
+    setLoading(randomBetween(35, 60));
+    // console.log("liked:", liked?.length);
 
-  if (!userGender) {
-    console.log("====================================");
-    console.log("valentine:", tally[0]);
-    console.log("====================================");
-  } else {
-    for (const user of tally) {
-      const userInfo = await getFullUserInfo(user.screen_name);
-      const gender = await getGender(userInfo.name);
-      if (
-        (gender === "female" && userGender === "male") ||
-        (gender === "male" && userGender === "female")
-      ) {
-        console.log("====================================");
-        console.log(userInfo);
-        console.log("====================================");
-        break;
-      }
+    /**
+     * This is the main place where we are going to keep our data as we process it.
+     * It's an object where the key is the user_id and the values is an object like this:
+     * {
+     *		screen_name: string,
+     *		id: string,
+     *		reply: number,
+     *		retweet: number,
+     *		like: number,
+     * }
+     */
+    const interactions = {};
+
+    countReplies(interactions, timeline, user.screen_name);
+    setLoading(randomBetween(60, 65));
+    countRetweets(interactions, timeline, user.screen_name);
+    setLoading(randomBetween(65, 70));
+    countLikes(interactions, liked, user.screen_name);
+    setLoading(randomBetween(70, 75));
+
+    const tally = [];
+
+    /**
+     * This is the heart of the algorithm.
+     * We process all the collected interactions and assign a value to them and count the total.
+     * We stored the processed interactions in our `tally` array.
+     * Each object in our tally array looks like this:
+     * {
+     *		screen_name: string,
+     *		id: string,
+     *		total: number
+     * }
+     */
+    for (const [key, interaction] of Object.entries(interactions)) {
+      let total = 0;
+      total += interaction.like;
+      total += interaction.reply * 1.1;
+      total += interaction.retweet * 1.3;
+
+      tally.push({
+        id: interaction.id,
+        screen_name: interaction.screen_name,
+        total,
+      });
     }
-    console.log("====================================");
-    console.log("no compatible user so:", tally[0]);
-    console.log("====================================");
+
+    // sort the tally array by total descending
+    tally.sort((a, b) => b.total - a.total);
+    setLoading(randomBetween(90, 95));
+    // console.log("====================================");
+    // console.log(tally);
+    // console.log("====================================");
+
+    if (!userGender) {
+      // console.log("====================================");
+      // console.log("valentine:", tally[0]);
+      // console.log("====================================");
+    } else {
+      for (const user of tally) {
+        const userInfo = await getFullUserInfo(user.screen_name);
+        const gender = await getGender(userInfo.name);
+        if (
+          (gender === "female" && userGender === "male") ||
+          (gender === "male" && userGender === "female")
+        ) {
+          // console.log("====================================");
+          // console.log(userInfo);
+          // console.log("====================================");
+          setValentineUsername(userInfo.screen_name);
+          setValentineAvatar(
+            userInfo.profile_image_url_https.replace(
+              "_normal.jpg",
+              "_400x400.jpg"
+            )
+          );
+          setLoading(100);
+          return;
+        }
+      }
+      if (tally.length === 0) {
+        alert(
+          "Too much network traffic. Poor server can't handle ;(. Try after sometime"
+        );
+        setLoading(100);
+        return;
+      }
+      // console.log("====================================");
+      // console.log("no compatible user so:", tally[0]);
+      // console.log("====================================");
+      setValentineUsername(tally[0].screen_name);
+      setValentineAvatar(
+        tally[0].profile_image_url_https.replace("_normal.jpg", "_400x400.jpg")
+      );
+      setLoading(100);
+    }
+  } catch (error) {
+    alert(
+      "Too much network traffic. Poor server can't handle ;(. Try after sometime"
+    );
+    setLoading(100);
+    return;
   }
 }

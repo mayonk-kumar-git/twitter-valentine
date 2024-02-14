@@ -274,6 +274,13 @@ export async function findValentine(
       // console.log("====================================");
       // console.log("valentine:", tally[0]);
       // console.log("====================================");
+      const userInfo = await getFullUserInfo(tally[0].screen_name);
+      setValentineUsername(userInfo.screen_name);
+      setValentineAvatar(
+        userInfo.profile_image_url_https.replace("_normal.jpg", "_400x400.jpg")
+      );
+      setLoading(100);
+      return;
     } else {
       for (const user of tally) {
         const userInfo = await getFullUserInfo(user.screen_name);

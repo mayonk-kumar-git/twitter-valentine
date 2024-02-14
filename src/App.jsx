@@ -54,7 +54,7 @@ function App() {
       <button
         // className="inline-flex px-5 py-2 bg-gray-600 rounded-md my-5 cursor-pointer"
         className="inline-flex px-5 py-2 bg-pink-600 rounded-md cursor-pointer max-w-52 justify-center align-middle mx-auto"
-        onClick={handleFindValentine}
+        // onClick={handleFindValentine}
       >
         <p>Find my valentine</p>
       </button>
@@ -91,7 +91,7 @@ function App() {
                 <button
                   // className="inline-flex px-5 py-2 bg-gray-600 rounded-md my-5 cursor-pointer"
                   className="inline-flex px-5 py-2 my-2 bg-pink-600 rounded-md cursor-pointer max-w-52 justify-center align-middle mx-auto"
-                  onClick={handleFindValentinesValentine}
+                  // onClick={handleFindValentinesValentine}
                 >
                   <p>{`Find @${valentineUsername} valentine`}</p>
                 </button>

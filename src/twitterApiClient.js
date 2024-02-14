@@ -259,6 +259,13 @@ export async function findValentine(
     // sort the tally array by total descending
     tally.sort((a, b) => b.total - a.total);
     setLoading(randomBetween(90, 95));
+
+    if (tally.length === 0) {
+      alert("You are too lonely to have a valentine. Please get a life");
+      setLoading(100);
+      return;
+    }
+
     // console.log("====================================");
     // console.log(tally);
     // console.log("====================================");
@@ -299,9 +306,10 @@ export async function findValentine(
       // console.log("====================================");
       // console.log("no compatible user so:", tally[0]);
       // console.log("====================================");
-      setValentineUsername(tally[0].screen_name);
+      const userInfo = await getFullUserInfo(tally[0].screen_name);
+      setValentineUsername(userInfo.screen_name);
       setValentineAvatar(
-        tally[0].profile_image_url_https.replace("_normal.jpg", "_400x400.jpg")
+        userInfo.profile_image_url_https.replace("_normal.jpg", "_400x400.jpg")
       );
       setLoading(100);
     }

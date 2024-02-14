@@ -15,25 +15,25 @@ function App() {
   const [loading, setLoading] = useState(100);
 
   const handleFindValentine = () => {
-    findValentine(
-      username,
-      setValentineUsername,
-      setUserAvatar,
-      setValentineAvatar,
-      setLoading
-    );
+    // findValentine(
+    //   username,
+    //   setValentineUsername,
+    //   setUserAvatar,
+    //   setValentineAvatar,
+    //   setLoading
+    // );
   };
 
   const handleFindValentinesValentine = () => {
     setValentineAvatar(defaultValentineAvatar);
     setUsername(valentineUsername);
-    findValentine(
-      valentineUsername,
-      setValentineUsername,
-      setUserAvatar,
-      setValentineAvatar,
-      setLoading
-    );
+    // findValentine(
+    //   valentineUsername,
+    //   setValentineUsername,
+    //   setUserAvatar,
+    //   setValentineAvatar,
+    //   setLoading
+    // );
   };
 
   return (

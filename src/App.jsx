@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import { findValentine } from "./twitterApiClient";
+import { findValentine } from "./twitterApiClient";
 
 const defaultUserAvatar =
   "https://cdn-icons-png.flaticon.com/512/124/124021.png";
@@ -15,25 +15,25 @@ function App() {
   const [loading, setLoading] = useState(100);
 
   const handleFindValentine = () => {
-    // findValentine(
-    //   username,
-    //   setValentineUsername,
-    //   setUserAvatar,
-    //   setValentineAvatar,
-    //   setLoading
-    // );
+    findValentine(
+      username,
+      setValentineUsername,
+      setUserAvatar,
+      setValentineAvatar,
+      setLoading
+    );
   };
 
   const handleFindValentinesValentine = () => {
     setValentineAvatar(defaultValentineAvatar);
     setUsername(valentineUsername);
-    // findValentine(
-    //   valentineUsername,
-    //   setValentineUsername,
-    //   setUserAvatar,
-    //   setValentineAvatar,
-    //   setLoading
-    // );
+    findValentine(
+      valentineUsername,
+      setValentineUsername,
+      setUserAvatar,
+      setValentineAvatar,
+      setLoading
+    );
   };
 
   return (
@@ -54,7 +54,7 @@ function App() {
       <button
         // className="inline-flex px-5 py-2 bg-gray-600 rounded-md my-5 cursor-pointer"
         className="inline-flex px-5 py-2 bg-pink-600 rounded-md cursor-pointer max-w-52 justify-center align-middle mx-auto"
-        // onClick={handleFindValentine}
+        onClick={handleFindValentine}
       >
         <p>Find my valentine</p>
       </button>
@@ -91,7 +91,7 @@ function App() {
                 <button
                   // className="inline-flex px-5 py-2 bg-gray-600 rounded-md my-5 cursor-pointer"
                   className="inline-flex px-5 py-2 my-2 bg-pink-600 rounded-md cursor-pointer max-w-52 justify-center align-middle mx-auto"
-                  // onClick={handleFindValentinesValentine}
+                  onClick={handleFindValentinesValentine}
                 >
                   <p>{`Find @${valentineUsername} valentine`}</p>
                 </button>

@@ -191,9 +191,7 @@ export async function findValentine(
   if (username.charAt(0) === "@") {
     username = username.slice(1);
   }
-  // const username = "mayonkkumar";
-  // const username = "suereact";
-  // const username = "dev_avocado";
+
   try {
     setLoading(randomBetween(5, 9));
     const user = await getFullUserInfo(username);
@@ -283,6 +281,9 @@ export async function findValentine(
       return;
     } else {
       for (const user of tally) {
+        if (user.screen_name === username) {
+          continue;
+        }
         const userInfo = await getFullUserInfo(user.screen_name);
         const gender = await getGender(userInfo.name);
         if (
@@ -305,8 +306,9 @@ export async function findValentine(
       }
       if (tally.length === 0) {
         alert(
-          "Too much network traffic. Poor server can't handle ;(. Try after sometime"
+          "Too much network traffic. Poor server can't handle ;(. \n\n(It's not true, I don't know what went wrong.)\n\n Just try to refresh"
         );
+        window.location.reload();
         setLoading(100);
         return;
       }
@@ -322,8 +324,9 @@ export async function findValentine(
     }
   } catch (error) {
     alert(
-      "Too much network traffic. Poor server can't handle ;(. Try after sometime"
+      "Too much network traffic. Poor server can't handle ;(. \n\n(It's not true, I don't know what went wrong.)\n\n Just try to refresh"
     );
+    window.location.reload();
     setLoading(100);
     return;
   }

@@ -15,6 +15,7 @@ function App() {
   const [loading, setLoading] = useState(100);
 
   const handleFindValentine = () => {
+    setUserAvatar(defaultUserAvatar);
     setValentineAvatar(defaultValentineAvatar);
     setValentineUsername("");
     findValentine(
@@ -65,14 +66,14 @@ function App() {
           alt="valentine avatar"
           width={200}
           height={200}
-          className="rounded-full max-w-[50vw] max-h-[50vw] border-white border-4 -translate-x-4"
+          className="rounded-full max-w-[40vw] max-h-[40vw] border-white border-4 -translate-x-4 w"
         />
         <img
           src={userAvatar}
           alt="user avatar"
           width={200}
           height={200}
-          className="rounded-full max-w-[50vw] max-h-[50vw] border-white border-4 translate-x-4"
+          className="rounded-full max-w-[40vw] max-h-[40vw] border-white border-4 translate-x-4"
         />
       </div>
 
@@ -108,9 +109,18 @@ function App() {
         )}
       </div>
       <footer>
-        <div className="absolute bottom-0 left-[50%] -translate-x-[50%] text-center cursor-pointer">
+        <div className="absolute justify-center align-middle gap-x-8 bottom-0 left-[50%] -translate-x-[50%] text-center cursor-pointer">
+          <a href="https://twitter.com/MayonkKumar" target="_blank">
+            <p>@mayonkkumar</p>
+          </a>
           <a href="https://twittercircle.com/" target="_blank">
-            <p>twitter apis powered by @twitter-circle</p>
+            <p> @twitter-circle</p>
+          </a>
+          <a
+            href="https://github.com/mayonk-kumar-git/twitter-valentine"
+            target="_blank"
+          >
+            <p>Github</p>
           </a>
         </div>
       </footer>

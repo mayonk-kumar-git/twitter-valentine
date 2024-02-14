@@ -111,9 +111,9 @@ function App() {
       <footer>
         <div className="absolute justify-center align-middle gap-x-8 bottom-0 left-[50%] -translate-x-[50%] text-center cursor-pointer">
           <a href="https://twitter.com/MayonkKumar" target="_blank">
-            <p>@mayonkkumar</p>
+            <p>❤️ & 🍫 @mayonkkumar</p>
           </a>
-          <a href="https://twittercircle.com/" target="_blank">
+          {/* <a href="https://twittercircle.com/" target="_blank">
             <p> @twitter-circle</p>
           </a>
           <a
@@ -121,7 +121,7 @@ function App() {
             target="_blank"
           >
             <p>Github</p>
-          </a>
+          </a> */}
         </div>
       </footer>
     </div>
